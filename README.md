@@ -32,13 +32,7 @@ In this task you will need to implement an Agent with classical Tool use patten 
 6. Implement all TODO blocks in [app](agent/app.py)
 7. Run [docker-compose](docker-compose.yml) with UMS, UMS MCP and Redis
 8. Start application [app](agent/app.py)
-9. Optional: You can test API with Postman
-10. Implement all TODO blocks in [index.html](index.html)
-    - `loadConversations` function
-    - `loadConversation`
-    - `deleteConversation`
-    - `streamResponse`
-11. Open in browser [index.html](index.html) and test your agent
+9. Open in browser [index.html](index.html) and test your agent
 
 ## Additional Task
 
@@ -59,7 +53,7 @@ In this task you will need to implement an Agent with classical Tool use patten 
 │   ├── conversation_manager.py    ⚠️ TODO: implement logic
 │   └── prompts.py                 ⚠️ TODO: write prompt
 ├── docker-compose.yml             ✅ Complete
-└── index.html                     ⚠️ TODO: implement logic
+└── index.html                     ✅ Complete
 ```
 
 <img src="/flow_diagrams/general_flow.png" alt="General Flow Diagram" />
@@ -72,3 +66,32 @@ In this task you will need to implement an Agent with classical Tool use patten 
 
 - You can connect to Redis Insight by URL http://localhost:6380
 - To see the conversations add database with URL `redis-ums:6379`
+
+
+## Issues on local run
+Issues when connecting to redis.
+Default redis port is already occupied, so use another port
+
+docker-compose.yaml
+```yaml
+  redis-ums:
+    image: redis:7.2.4-alpine3.19
+    restart: always
+    ports:
+      - "6389:6379"
+```
+
+Connecting to redis via Redis Insight.
+In browser go to 
+http://localhost:6380/
+
+Use this connection to Redis DB
+192.168.1.24:6389
+
+$ ipconfig getifaddr en0
+192.168.1.24
+
+8. Create Redis client (redis.Redis) with:
+       - host=os.getenv("REDIS_HOST", "localhost")
+       - port=int(os.getenv("REDIS_PORT", 6389))
+       - decode_responses=True
